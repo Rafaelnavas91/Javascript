@@ -14,6 +14,39 @@ else {
 
 //nombre del juego//
 
+const game = [
+    {
+        nombre: "Spiderman",
+        precio: "6000",
+        stock: "60",
+    },
+
+    {
+        nombre: "fifa",
+        precio: "8000",
+        stock: "120",
+
+    },
+    {
+        nombre: "God of war",
+        precio: "7000",
+        stock: "48",
+    },
+    {
+        nombre: "NBA",
+        precio: "6500",
+        stock: "96",
+    }
+];
+game.forEach((game => console.log("Nombre del juego:" + game.nombre)));
+game.forEach((game => console.log("El precio establecido como " + game.precio + " de el juego " + game.nombre + " puede cambiar en proximos meses")));
+game.forEach((game => console.log("El stock disponible de " + game.nombre + " es:" + game.stock)));
+
+const gameBarato = game.filter((game) => game.precio < 8000);
+console.log(gameBarato);
+
+
+
 let videojuego = prompt("¿Que juego desea comprar? ( seleccione 0 para salir)");
 while (videojuego > "0") {
     switch (videojuego) {
@@ -32,10 +65,14 @@ while (videojuego > "0") {
     videojuego = prompt("¿Que juego desea comprar? ( seleccione 0 para salir)");
 }
 
-const Juegos=["fifa","nba","spiderman","god of war"]
+const Juegos = ["fifa", "nba", "spiderman", "god of war"]
 console.log(Juegos)
-console.log(Juegos[0] +  " y "   +  Juegos[1] + " sacan distintas versiones cada año")
-console.log( "El juego " +  Juegos[2]  + " es la version de 2018")
+console.log(Juegos[0] + " y " + Juegos[1] + " sacan distintas versiones cada año")
+console.log("El juego " + Juegos[2] + " es la version de 2018")
+
+let nuevo = prompt("Que otro juego le interesa?")
+Juegos.push(nuevo)
+console.log(Juegos)
 
 let envio = prompt("1-Envio a domicilio \n2-Retirar por local");
 let domicilio;
@@ -98,10 +135,10 @@ function Consola(modelo, color, precio) {
 }
 
 
-const consola1 = new Consola("Playstation 5",  "negro","$60.000")
+const consola1 = new Consola("Playstation 5", "negro", "$60.000")
 console.log(consola1)
-const consola2 = new Consola("Playstation 4","negro", "$30.000")
+const consola2 = new Consola("Playstation 4", "negro", "$30.000")
 console.log(consola2)
-const consola3 = new  Consola("Xbox 360","blanco","$25.000")
+const consola3 = new Consola("Xbox 360", "blanco", "$25.000")
 console.log(consola3)
 
