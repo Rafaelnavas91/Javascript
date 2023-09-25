@@ -247,6 +247,13 @@ function agregarAlCarro(game) {
     carro.push(game);
     console.table(carro);
     alert(`Se añadió ${game.nombre} al carro de compras`);
+    tablaBody.innerHTML += `
+    <tr>
+        <td>${game.id}</td>
+        <td>${game.nombre}</td>
+        <td>${game.precio}</td>
+    </tr>
+`;
 
     localStorage.setItem('carro', JSON.stringify(carro));
   
