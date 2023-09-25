@@ -21,11 +21,19 @@
         </ul>
     </section>
     <section class="usuario">
-        <label for="nombre">Ingrese su nombre y apellido:</label>
-        <input type="text" id="nombreInput">
-        <button onclick="mostrarNombre()">Mostrar nombre</button>
-
-        <div id="resultado"></div>
+        <form id="formulario">
+            <label for="nombre">
+                Nombre
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre...">
+            </label>
+            <label for="email">
+                Email:
+                <input type="email" name="email" id="email" placeholder="else@gmail.com">
+                <small id="mensaje"></small>
+            </label>
+            <input type="submit" value="enviar" class="btn btn-success">
+            <input type="button" value="borrar" class="btn btn-danger" onclick="borrarCampos()">
+        </form>
     </section>
     <hr>
     <section>
