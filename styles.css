@@ -31,3 +31,11 @@ h2{
     font-size: 20px;
 }
 
+
+#btn_toast{
+    width: 20%;
+    margin-left: 40%;
+    background-color: black;
+    color: bisque;
+    
+}
