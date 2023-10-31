@@ -4,7 +4,6 @@ alert("Bienvenido/a!")
 
 
 
-
 const campoNombre = document.getElementById('nombre');
 const campoEmail = document.getElementById('email');
 
@@ -38,7 +37,6 @@ function validar(evento) {
         evento.preventDefault();
         alert('Ingrese nombre o email faltante');
     } else {
-      
         const usuario = {
             nombre: campoNombre.value,
             email: campoEmail.value
@@ -47,10 +45,24 @@ function validar(evento) {
         const usuarioJSON = JSON.stringify(usuario);
 
         localStorage.setItem('usuario', usuarioJSON);
-      
+
+        
+        fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: usuarioJSON
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Respuesta de la API:', data);
+        })
+        .catch(error => {
+            console.error('Error al enviar datos del usuario:', error);
+        });
     }
 }
-
 
 
 
