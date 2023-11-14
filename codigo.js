@@ -3,7 +3,6 @@
 alert("Bienvenido/a!")
 
 
-
 const campoNombre = document.getElementById('nombre');
 const campoEmail = document.getElementById('email');
 
@@ -37,6 +36,7 @@ function validar(evento) {
         evento.preventDefault();
         alert('Ingrese nombre o email faltante');
     } else {
+
         const usuario = {
             nombre: campoNombre.value,
             email: campoEmail.value
@@ -46,21 +46,6 @@ function validar(evento) {
 
         localStorage.setItem('usuario', usuarioJSON);
 
-        
-        fetch('https://jsonplaceholder.typicode.com/posts', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: usuarioJSON
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Respuesta de la API:', data);
-        })
-        .catch(error => {
-            console.error('Error al enviar datos del usuario:', error);
-        });
     }
 }
 
@@ -165,55 +150,82 @@ const carro = JSON.parse(localStorage.getItem('carro')) || [];
 const botones = document.getElementsByClassName('comprar');
 
 for (const boton of botones) {
-    boton.addEventListener('click', () => {
+    boton.addEventListener('click', async () => {
         console.log('ID: ' + boton.id);
         const prodComprar = game.find(game => game.id == boton.id);
         console.log(prodComprar);
 
-        agregarAlCarro(prodComprar);
+        try {
+            await agregarAlCarro(prodComprar);
+            console.log('Producto añadido al carro y actualizado en el almacenamiento local.');
+        } catch (error) {
+            console.error('Error al agregar el producto al carro:', error);
+        }
     });
 }
 
 function agregarAlCarro(game) {
-    carro.push(game);
-    console.table(carro);
-    Swal.fire({
-        title: 'Perfecto!',
-        text: `se añadió ${game.nombre} al carro de compras`,
-        imageUrl: game.img,
-        imageWidth: 200,
-        imageHeight: 200,
-        imageAlt: 'Custom image',
+    return new Promise((resolve, reject) => {
+        try {
+            carro.push(game);
+            console.table(carro);
+            Swal.fire({
+                title: '¡Perfecto!',
+                text: `Se añadió ${game.nombre} al carro de compras`,
+                imageUrl: game.img,
+                imageWidth: 200,
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+            });
+
+            tablaBody.innerHTML += `
+                <tr>
+                    <td>${game.id}</td>
+                    <td>${game.nombre}</td>
+                    <td>${game.precio}</td>
+                </tr>
+            `;
+
+            actualizarCarroEnLocalStorage();
+            resolve(); 
+        } catch (error) {
+            reject(error); 
+        }
     });
-
-    tablaBody.innerHTML += `
-    <tr>
-        <td>${game.id}</td>
-        <td>${game.nombre}</td>
-        <td>${game.precio}</td>
-    </tr>
-    `;
-
-    actualizarCarroEnLocalStorage();
 }
-
-const boton = document.getElementById('btn_toast');
-boton.addEventListener('click', () => {
-    Toastify({
-        text: 'Gracias por su compra',
-        duration: 5000,
-        close: true,
-        gravity: 'bottom',
-        position: 'left',
-        style: {
-            background: 'linear-gradient(to right,#e8e1cc,#1c1c1b)',
-        },
-    }).showToast();
-});
 
 function actualizarCarroEnLocalStorage() {
     localStorage.setItem('carro', JSON.stringify(carro));
 }
+
+
+const boton = document.getElementById('btn_toast');
+
+boton.addEventListener('click', async () => {
+    await showToast();
+    actualizarCarroEnLocalStorage();
+});
+
+async function showToast() {
+    return new Promise((resolve) => {
+        Toastify({
+            text: 'Gracias por su compra',
+            duration: 5000,
+            close: true,
+            gravity: 'bottom',
+            position: 'left',
+            style: {
+                background: 'linear-gradient(to right,#e8e1cc,#1c1c1b)',
+            },
+            callback: resolve,
+        }).showToast();
+    });
+}
+
+function actualizarCarroEnLocalStorage() {
+    localStorage.setItem('carro', JSON.stringify(carro));
+}
+
 
 
 
